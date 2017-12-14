@@ -1,6 +1,9 @@
 <body>
-    <div class="container">
-        <table class="table table-dark table-hover text-center">
+    <div class="container" 
+    style="padding-top: 30px;
+    padding-bottom: 15px;"
+>
+        <table class="table table-dark table-hover text-center border border-dark">
             <thead>
                 <tr>
                     <th>Currency</th>
@@ -14,7 +17,7 @@
                 <tr>
                     <td>{{> name this}} </td>
                     <td>{{> balance this}} </td>
-                    <td>$</td>
+                    <td>$</td> <!-- TODO pass bitcoin price into table and multiply with balance--> 
                     <td>0.0</td>
                 </tr>
                 {{/each}}
