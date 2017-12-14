@@ -1,24 +1,24 @@
 <body>
-<div align="center">
-<table class="table table-dark text-center">
-  <thead>
-    <tr>
-      <th>Currency</th>
-      <th>Balance</th>
-      <th>Value in USD</th>
-      <th>Value in BTC</th>
-    </tr>
-  </thead>
-  <tbody>
-    {{#each portfolio}}
-    <tr>
-        <td>{{> name this}} </td> 
-        <td>{{> balance this}} </td>
-        <td>$</td>
-        <td>0.0</td>
-    </tr>
-    {{/each}}
-  </tbody>
-</table>
-</div>
+    <div class="container">
+        <table class="table table-dark table-hover text-center">
+            <thead>
+                <tr>
+                    <th>Currency</th>
+                    <th>Balance</th>
+                    <th>Value in USD</th>
+                    <th>Value in BTC</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each portfolio}}
+                <tr>
+                    <td>{{> name this}} </td>
+                    <td>{{> balance this}} </td>
+                    <td>$</td>
+                    <td>0.0</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
 </body>
