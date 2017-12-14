@@ -15,10 +15,10 @@
             <tbody>
                 {{#each portfolio}}
                 <tr>
-                    <td>{{> name this}} </td>
-                    <td>{{> balance this}} </td>
+                    <td>{{> name this}}</td>
+                    <td>{{> balance this}}</td>
                     <td>$</td> <!-- TODO pass bitcoin price into table and multiply with balance--> 
-                    <td>0.0</td>
+                    <td>{{bitcoinPrice}}</td>
                 </tr>
                 {{/each}}
             </tbody>
