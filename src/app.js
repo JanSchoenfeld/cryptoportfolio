@@ -12,6 +12,7 @@ const engineConfig = {
     layoutsDir: path.join(__dirname, 'views', 'layouts'),
     partialsDir: path.join(__dirname, 'views', 'partials')
 }
+
 app.engine('hbs', exphbs(engineConfig));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
@@ -24,7 +25,10 @@ var options = { method: 'GET',
   url: 'https://api.coindesk.com/v1/bpi/currentprice/EUR.json'};
 
 
-
+function round(number){
+    var roundedNumber = Math.round(number * 100) / 100;
+    return roundedNumber;
+}
 
 
 app.get("/", function(req, res){
@@ -34,9 +38,9 @@ app.get("/", function(req, res){
         if (error) throw new Error(error);
       
         coindeskResponse = JSON.parse(body);
-        console.log(coindeskResponse.bpi.USD.rate_float);
-        console.log(coindeskResponse.bpi.EUR.rate_float);
-        res.render('portfolio', {portfolio:portfolio, bitcoinPrice: coindeskResponse.bpi.USD.rate_float});
+        var btcPriceRounded = round(coindeskResponse.bpi.USD.rate_float);
+        console.log(btcPriceRounded);
+        res.render('portfolio', {portfolio:portfolio, btcPrice: coindeskResponse.bpi.USD.rate_float, btcPriceRounded: btcPriceRounded});
       });
 
 });
