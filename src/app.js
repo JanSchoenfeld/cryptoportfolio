@@ -30,6 +30,16 @@ function round(number) {
     return roundedNumber;
 }
 
+function calculateValue(portfolio, btcPrice) {
+    for (let entry of portfolio) {
+        if (entry.name == 'BTC') {
+            entry.worthInUsd = round(entry.balance * btcPrice);
+        } else {
+            entry.worthInUsd = round((entry.balance * entry.lastPrice) * btcPrice);
+        }
+    }
+}
+
 
 app.get("/", function (req, res) {
 
@@ -40,7 +50,8 @@ app.get("/", function (req, res) {
         coindeskResponse = JSON.parse(body);
         var btcPriceRounded = round(coindeskResponse.bpi.USD.rate_float);
         altCoinPrice(portfolio);
-        portfolio[0].lastPrice = btcPriceRounded + '$';
+        portfolio[0].lastPrice = btcPriceRounded;
+        calculateValue(portfolio, coindeskResponse.bpi.USD.rate_float);
         res.render('portfolio', {
             portfolio: portfolio,
             btcPrice: coindeskResponse.bpi.USD.rate_float,

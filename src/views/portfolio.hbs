@@ -17,7 +17,7 @@
                 <tr>
                     <td>{{> name this}}</td>
                     <td>{{> balance this}}</td>
-                    <td>$</td> <!-- TODO pass bitcoin price into table and multiply with balance--> 
+                    <td>${{> worthInUsd this}}</td> <!-- TODO pass bitcoin price into table and multiply with balance--> 
                     <td>{{> lastPrice this}}</td>
                 </tr>
                 {{/each}}
