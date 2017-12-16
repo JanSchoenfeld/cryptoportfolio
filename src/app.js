@@ -40,6 +40,7 @@ app.get("/", function (req, res) {
         coindeskResponse = JSON.parse(body);
         var btcPriceRounded = round(coindeskResponse.bpi.USD.rate_float);
         altCoinPrice(portfolio);
+        portfolio[0].lastPrice = btcPriceRounded + '$';
         res.render('portfolio', {
             portfolio: portfolio,
             btcPrice: coindeskResponse.bpi.USD.rate_float,
