@@ -5,6 +5,8 @@ var portfolio = JSON.parse(fs.readFileSync("../portfolio.json"));
 var url = 'https://bittrex.com/api/v1.1/public/getmarketsummary?market=BTC-';
 
 
+//Call Bittrex public API for each currency and get the market summary, then add into portfolio.
+//#TODO: Implement with promise
 function getBittrexPrice(portfolio) {
 
   for (let balance of portfolio) {

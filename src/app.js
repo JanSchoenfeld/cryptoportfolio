@@ -25,20 +25,44 @@ app.engine('hbs', exphbs(engineConfig));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
-function round(number) {
-    var roundedNumber = Math.round(number * 100) / 100;
+//Function that rounds on second decimal after 0
+//params: number to round, decimal to round to (Ex. 10 for .0, 100 for .00)
+function round(number, decimal) {
+    var roundedNumber = Math.round(number * decimal) / decimal;
     return roundedNumber;
 }
 
+//Function to calculate the current dollar price based on satoshi price, balance and BTC-USD price
 function calculateValue(portfolio, btcPrice) {
     for (let entry of portfolio) {
         if (entry.name == 'BTC') {
-            entry.worthInUsd = round(entry.balance * btcPrice);
+            entry.worthInUSD = round(entry.balance * btcPrice, 100);
+            entry.accBTCValue = entry.balance;
         } else {
-            entry.worthInUsd = round((entry.balance * entry.lastPrice) * btcPrice);
+            entry.accBTCValue = round(entry.balance * entry.lastPrice, 100000000);
+            entry.worthInUSD = round(entry.accBTCValue * btcPrice, 100);
         }
     }
 }
+
+/*
+function calculateTotalValue(portfolio) {
+    var totalValueUSD;
+    var totalValueBTC;
+    for (let entry of portfolio) {
+        totalValueUSD = totalValueUSD + entry.worthInUSD;
+        totalValueBTC = totalValueBTC + entry.accBTCValue;
+    }
+    var totalEntry = {
+        name: "Total",
+        balance: " ",
+        accBTCValue: totalValueBTC,
+        worthInUSD: totalValueUSD,
+        lastPrice: " "
+    }
+    portfolio.push(totalEntry);
+}
+*/
 
 
 app.get("/", function (req, res) {
@@ -48,17 +72,17 @@ app.get("/", function (req, res) {
         if (error) throw new Error(error);
 
         coindeskResponse = JSON.parse(body);
-        var btcPriceRounded = round(coindeskResponse.bpi.USD.rate_float);
+        var btcPriceRounded = round(coindeskResponse.bpi.USD.rate_float, 100);
         altCoinPrice(portfolio);
         portfolio[0].lastPrice = btcPriceRounded;
         calculateValue(portfolio, coindeskResponse.bpi.USD.rate_float);
+        console.log(portfolio);
         res.render('portfolio', {
             portfolio: portfolio,
             btcPrice: coindeskResponse.bpi.USD.rate_float,
             btcPriceRounded: btcPriceRounded
         });
     });
-
 });
 
 app.listen(3000, function () {

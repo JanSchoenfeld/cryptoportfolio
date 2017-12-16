@@ -9,6 +9,7 @@
                     <th>Currency</th>
                     <th>Balance</th>
                     <th>Value in USD</th>
+                    <th>Value in BTC</th>
                     <th>Value per unit</th>
                 </tr>
             </thead>
@@ -17,7 +18,8 @@
                 <tr>
                     <td>{{> name this}}</td>
                     <td>{{> balance this}}</td>
-                    <td>${{> worthInUsd this}}</td> <!-- TODO pass bitcoin price into table and multiply with balance--> 
+                    <td>${{> worthInUSD this}}</td>
+                    <td>{{> accBTCValue this}}</td>
                     <td>{{> lastPrice this}}</td>
                 </tr>
                 {{/each}}
