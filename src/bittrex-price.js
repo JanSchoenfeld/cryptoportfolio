@@ -5,7 +5,7 @@ var portfolio = JSON.parse(fs.readFileSync("../portfolio.json"));
 var url = 'https://bittrex.com/api/v1.1/public/getmarketsummary?market=BTC-';
 
 
-function getBittrexPrice() {
+function getBittrexPrice(portfolio) {
 
   for (let balance of portfolio) {
     if (balance.name == 'BTC') {
@@ -29,11 +29,12 @@ function getBittrexPrice() {
   }
 
   //pseudo-async
-  var millisecondsToWait = 500;
-  setTimeout(function () {
-    return portfolio;
-  }, millisecondsToWait);
+  var millisecondsToWait = 700;
+  setTimeout(function () {}, millisecondsToWait);
 
 }
+
+//warum funktioniert das ohne den aufruf nicht????
+getBittrexPrice(portfolio);
 
 module.exports = getBittrexPrice;
