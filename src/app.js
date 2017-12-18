@@ -45,6 +45,13 @@ function calculateValue(portfolio, btcPrice) {
     }
 }
 
+function calculatePercentChange(portfolio){
+    for(let entry of portfolio){
+        var percentChange = ((1 - (entry.lastPrice / entry.previousDay)) * 100) * -1;
+        entry.percentChange = round(percentChange, 10);
+    }
+}
+
 /*
 function calculateTotalValue(portfolio) {
     var totalValueUSD;
@@ -76,6 +83,7 @@ app.get("/", function (req, res) {
         altCoinPrice(portfolio);
         portfolio[0].lastPrice = btcPriceRounded; //TODO where entry.name = "btc"
         calculateValue(portfolio, coindeskResponse.bpi.USD.rate_float);
+        calculatePercentChange(portfolio);
         console.log(portfolio);
         res.render('portfolio', {
             portfolio: portfolio,

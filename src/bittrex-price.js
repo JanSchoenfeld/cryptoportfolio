@@ -27,6 +27,7 @@ function getBittrexPrice(portfolio) {
 
       var ticker = JSON.parse(body);
       balance.lastPrice = ticker.result[0].Last;
+      balance.previousDay = ticker.result[0].PrevDay;
     });
   }
 

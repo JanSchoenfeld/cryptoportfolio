@@ -11,6 +11,8 @@
                     <th>Value in USD</th>
                     <th>Value in BTC</th>
                     <th>Value per unit</th>
+                    <th>Previous day</th>
+                    <th>% Change</th>
                 </tr>
             </thead>
             <tbody>
@@ -21,6 +23,8 @@
                     <td>${{> worthInUSD this}}</td>
                     <td>{{> accBTCValue this}}</td>
                     <td>{{> lastPrice this}}</td>
+                    <td>{{> previousDay this}}</td>
+                    <td>{{> percentChange this}}%</td>
                 </tr>
                 {{/each}}
             </tbody>
