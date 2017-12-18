@@ -1,8 +1,6 @@
 <body>
-    <div class="container" 
-    style="padding-top: 30px;
-    padding-bottom: 15px;"
->
+    <div class="container" style="padding-top: 30px;
+    padding-bottom: 15px;">
         <table class="table table-dark table-hover text-center border border-dark">
             <thead>
                 <tr>
@@ -18,7 +16,10 @@
             <tbody>
                 {{#each portfolio}}
                 <tr>
-                    <td>{{> name this}}</td>
+                    <td>
+                        <a target="_blank" href="https://bittrex.com/Market/Index?MarketName=BTC-{{> name this}}" style="color: #ffffff">{{> name this}}</a>
+                        <!-- if market = btc link to other usdt-btc or coindesk -->
+                    </td>
                     <td>{{> balance this}}</td>
                     <td>${{> worthInUSD this}}</td>
                     <td>{{> accBTCValue this}}</td>

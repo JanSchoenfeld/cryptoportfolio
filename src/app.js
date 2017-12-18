@@ -47,8 +47,7 @@ function calculateValue(portfolio, btcPrice) {
 
 function calculatePercentChange(portfolio){
     for(let entry of portfolio){
-        var percentChange = ((1 - (entry.lastPrice / entry.previousDay)) * 100) * -1;
-        entry.percentChange = round(percentChange, 10);
+        entry.percentChange = round((((1 - (entry.lastPrice / entry.previousDay)) * 100) * -1), 10);
     }
 }
 
@@ -74,17 +73,20 @@ function calculateTotalValue(portfolio) {
 
 app.get("/", function (req, res) {
 
-    //hier die views datei einfügen die in main.hsb gerendert werden soll
+    //request to coinbase to get current btc price
     request(options, function (error, response, body) {
         if (error) throw new Error(error);
 
         coindeskResponse = JSON.parse(body);
         var btcPriceRounded = round(coindeskResponse.bpi.USD.rate_float, 100);
+
+        //call bittrex api for altcoin price
         altCoinPrice(portfolio);
         portfolio[0].lastPrice = btcPriceRounded; //TODO where entry.name = "btc"
         calculateValue(portfolio, coindeskResponse.bpi.USD.rate_float);
         calculatePercentChange(portfolio);
         console.log(portfolio);
+        //hier die views datei + variablen einfügen die in main.hsb gerendert werden soll
         res.render('portfolio', {
             portfolio: portfolio,
             btcPrice: coindeskResponse.bpi.USD.rate_float,
