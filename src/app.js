@@ -74,7 +74,7 @@ app.get("/", function (req, res) {
         coindeskResponse = JSON.parse(body);
         var btcPriceRounded = round(coindeskResponse.bpi.USD.rate_float, 100);
         altCoinPrice(portfolio);
-        portfolio[0].lastPrice = btcPriceRounded;
+        portfolio[0].lastPrice = btcPriceRounded; //TODO where entry.name = "btc"
         calculateValue(portfolio, coindeskResponse.bpi.USD.rate_float);
         console.log(portfolio);
         res.render('portfolio', {
