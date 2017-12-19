@@ -17,8 +17,12 @@
                 {{#each portfolio}}
                 <tr>
                     <td>
+                        {{#if_equal name 'BTC'}}
+                        <a target="_blank" href="https://bittrex.com/Market/Index?MarketName=USDT-BTC" style="color: #ffffff">{{> name this}}</a>
+                        {{else}}
                         <a target="_blank" href="https://bittrex.com/Market/Index?MarketName=BTC-{{> name this}}" style="color: #ffffff">{{> name this}}</a>
                         <!-- if market = btc link to other usdt-btc or coindesk -->
+                        {{/if_equal}}
                     </td>
                     <td>{{> balance this}}</td>
                     <td>${{> worthInUSD this}}</td>

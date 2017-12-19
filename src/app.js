@@ -12,11 +12,34 @@ var options = {
     method: 'GET',
     url: 'https://api.coindesk.com/v1/bpi/currentprice/EUR.json'
 };
+/*
+var if_helper = function (Handlebars) {
+
+    return Handlebars.registerHelper('if_equal', function (a, b, opts) {
+
+        if (a == b) {
+            return opts.fn(this);
+        } else {
+            return opts.inverse(this);
+        }
+
+    })
 
 
+}
+*/
 const engineConfig = {
     extname: '.hbs',
     defaultLayout: 'main',
+    helpers: {
+        if_equal: function (a,b,opts) {
+            if(a == b) {
+                return opts.fn(this);
+            } else {
+                return opts.inverse(this);
+            }
+        }
+    },
     layoutsDir: path.join(__dirname, 'views', 'layouts'),
     partialsDir: path.join(__dirname, 'views', 'partials')
 }
@@ -32,6 +55,8 @@ function round(number, decimal) {
     return roundedNumber;
 }
 
+
+
 //Function to calculate the current dollar price based on satoshi price, balance and BTC-USD price
 function calculateValue(portfolio, btcPrice) {
     for (let entry of portfolio) {
@@ -45,8 +70,8 @@ function calculateValue(portfolio, btcPrice) {
     }
 }
 
-function calculatePercentChange(portfolio){
-    for(let entry of portfolio){
+function calculatePercentChange(portfolio) {
+    for (let entry of portfolio) {
         entry.percentChange = round((((1 - (entry.lastPrice / entry.previousDay)) * 100) * -1), 10);
     }
 }
@@ -94,6 +119,9 @@ app.get("/", function (req, res) {
         });
     });
 });
+
+
+
 
 app.listen(3000, function () {
 
