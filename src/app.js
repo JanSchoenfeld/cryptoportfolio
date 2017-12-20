@@ -12,28 +12,13 @@ var options = {
     method: 'GET',
     url: 'https://api.coindesk.com/v1/bpi/currentprice/EUR.json'
 };
-/*
-var if_helper = function (Handlebars) {
 
-    return Handlebars.registerHelper('if_equal', function (a, b, opts) {
-
-        if (a == b) {
-            return opts.fn(this);
-        } else {
-            return opts.inverse(this);
-        }
-
-    })
-
-
-}
-*/
 const engineConfig = {
     extname: '.hbs',
     defaultLayout: 'main',
     helpers: {
-        if_equal: function (a,b,opts) {
-            if(a == b) {
+        if_equal: function (a, b, opts) {
+            if (a == b) {
                 return opts.fn(this);
             } else {
                 return opts.inverse(this);
@@ -56,7 +41,6 @@ function round(number, decimal) {
 }
 
 
-
 //Function to calculate the current dollar price based on satoshi price, balance and BTC-USD price
 function calculateValue(portfolio, btcPrice) {
     for (let entry of portfolio) {
@@ -68,22 +52,16 @@ function calculateValue(portfolio, btcPrice) {
             entry.worthInUSD = round(entry.accBTCValue * btcPrice, 100);
         }
     }
-}
-
-function calculatePercentChange(portfolio) {
+    var totalValueUSD = 0;
+    var totalValueBTC = 0;
     for (let entry of portfolio) {
-        entry.percentChange = round((((1 - (entry.lastPrice / entry.previousDay)) * 100) * -1), 10);
+        totalValueUSD = totalValueUSD + parseFloat(entry.worthInUSD);
+        totalValueBTC = totalValueBTC + parseFloat(entry.accBTCValue);
     }
-}
+    totalValueUSD = round(totalValueUSD, 100);
+    totalValueBTC = round(totalValueBTC, 100);
 
-/*
-function calculateTotalValue(portfolio) {
-    var totalValueUSD;
-    var totalValueBTC;
-    for (let entry of portfolio) {
-        totalValueUSD = totalValueUSD + entry.worthInUSD;
-        totalValueBTC = totalValueBTC + entry.accBTCValue;
-    }
+    /*
     var totalEntry = {
         name: "Total",
         balance: " ",
@@ -92,8 +70,16 @@ function calculateTotalValue(portfolio) {
         lastPrice: " "
     }
     portfolio.push(totalEntry);
+    */
+    console.log(totalValueBTC + ' ' + '$' + totalValueUSD);
 }
-*/
+
+
+function calculatePercentChange(portfolio) {
+    for (let entry of portfolio) {
+        entry.percentChange = round((((1 - (entry.lastPrice / entry.previousDay)) * 100) * -1), 10);
+    }
+}
 
 
 app.get("/", function (req, res) {
@@ -107,7 +93,12 @@ app.get("/", function (req, res) {
 
         //call bittrex api for altcoin price
         altCoinPrice(portfolio);
-        portfolio[0].lastPrice = btcPriceRounded; //TODO where entry.name = "btc"
+        for (let entry of portfolio) {
+            if (entry.name == 'BTC') {
+                entry.lastPrice = btcPriceRounded;
+                break;
+            }
+        }
         calculateValue(portfolio, coindeskResponse.bpi.USD.rate_float);
         calculatePercentChange(portfolio);
         console.log(portfolio);

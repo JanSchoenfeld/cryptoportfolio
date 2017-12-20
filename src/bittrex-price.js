@@ -5,6 +5,11 @@ var portfolio = JSON.parse(fs.readFileSync("../portfolio.json"));
 var url = 'https://bittrex.com/api/v1.1/public/getmarketsummary?market=BTC-';
 
 
+function round(number, decimal) {
+  var roundedNumber = Math.round(number * decimal) / decimal;
+  return roundedNumber;
+}
+
 //Call Bittrex public API for each currency and get the market summary, then add into portfolio.
 //#TODO: Implement with promise
 function getBittrexPrice(portfolio) {
@@ -27,7 +32,11 @@ function getBittrexPrice(portfolio) {
 
       var ticker = JSON.parse(body);
       balance.lastPrice = ticker.result[0].Last;
+      if(balance.name == 'BTC'){
+        balance.previousDay = round(ticker.result[0].PrevDay, 100);
+      }else{
       balance.previousDay = ticker.result[0].PrevDay;
+      }
     });
   }
 
