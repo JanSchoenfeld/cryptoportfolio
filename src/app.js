@@ -41,6 +41,7 @@ function round(number, decimal) {
 }
 
 
+
 //Function to calculate the current dollar price based on satoshi price, balance and BTC-USD price
 function calculateValue(portfolio, btcPrice) {
     for (let entry of portfolio) {
@@ -75,11 +76,13 @@ function calculateValue(portfolio, btcPrice) {
 }
 
 
+
 function calculatePercentChange(portfolio) {
     for (let entry of portfolio) {
         entry.percentChange = round((((1 - (entry.lastPrice / entry.previousDay)) * 100) * -1), 10);
     }
 }
+
 
 
 app.get("/", function (req, res) {
@@ -89,28 +92,27 @@ app.get("/", function (req, res) {
         if (error) throw new Error(error);
 
         coindeskResponse = JSON.parse(body);
-        var btcPriceRounded = round(coindeskResponse.bpi.USD.rate_float, 100);
+        var btcPriceRoundedUSD = round(coindeskResponse.bpi.USD.rate_float, 100);
+        var btcPriceRoundedEUR = round(coindeskResponse.bpi.EUR.rate_float, 100);
 
         //call bittrex api for altcoin price
         altCoinPrice(portfolio);
         for (let entry of portfolio) {
             if (entry.name == 'BTC') {
-                entry.lastPrice = btcPriceRounded;
+                entry.lastPrice = btcPriceRoundedUSD;
                 break;
             }
         }
         calculateValue(portfolio, coindeskResponse.bpi.USD.rate_float);
         calculatePercentChange(portfolio);
-        console.log(portfolio);
         //hier die views datei + variablen einfügen die in main.hsb gerendert werden soll
         res.render('portfolio', {
             portfolio: portfolio,
             btcPrice: coindeskResponse.bpi.USD.rate_float,
-            btcPriceRounded: btcPriceRounded
+            btcPriceRounded: btcPriceRoundedUSD
         });
     });
 });
-
 
 
 
