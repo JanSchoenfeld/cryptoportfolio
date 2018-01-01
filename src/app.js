@@ -71,7 +71,7 @@ function calculateValue(portfolio, btcPrice) {
     }
     portfolio.push(totalEntry);
     */
-    console.log(totalValueBTC + ' ' + '$' + totalValueUSD);
+    console.log(totalValueBTC + ' BTC ' + '$' + totalValueUSD);
 }
 
 
@@ -101,7 +101,6 @@ app.get("/", function (req, res) {
         }
         calculateValue(portfolio, coindeskResponse.bpi.USD.rate_float);
         calculatePercentChange(portfolio);
-        console.log(portfolio);
         //hier die views datei + variablen einfügen die in main.hsb gerendert werden soll
         res.render('portfolio', {
             portfolio: portfolio,
