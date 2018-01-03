@@ -1,0 +1,11 @@
+[{
+
+        "name": "bittrex",
+        "url": "https://bittrex.com/api/v1.1/public/getmarketsummary?market=#CURRENCY-#ALT"
+    },
+    {
+        "name": "binance",
+        "url": "https://api.binance.com/api/v1/ticker/24hr?symbol=#ALT#CURRENCY"
+
+    }
+]

@@ -1,33 +1,31 @@
 [{
-	"name": "BTC",
-	"balance": "1.47510767"
-},
-{
-	"name": "NEO",
-	"balance": "22"
-},
-{
-	"name": "NXT",
-	"balance": "600"
-},
-{
-	"name": "VRM",
-	"balance": "80"
-},
-{
-	"name": "POWR",
-	"balance": "400"
-},
-{
-	"name": "KMD",
-	"balance": "40"
-},
-{
-	"name": "SHIFT",
-	"balance": "50"
-},
-{
-	"name": "TRIG",
-	"balance": "100"
-}
+		"name": "BTC",
+		"balance": "1.47510767",
+		"exchange": "bittrex",
+		"url": "https://bittrex.com/api/v1.1/public/getmarketsummary?market=USDT-BTC"
+	},
+	{
+		"name": "NEO",
+		"balance": "32",
+		"exchange": "bittrex",
+		"url": "https://bittrex.com/api/v1.1/public/getmarketsummary?market=BTC-NEO"
+	},
+	{
+		"name": "XLM",
+		"balance": "1700",
+		"exchange": "bittrex",
+		"url": "https://bittrex.com/api/v1.1/public/getmarketsummary?market=BTC-XLM"
+	},
+	{
+		"name": "REQ",
+		"balance": "1110",
+		"exchange": "binance",
+		"url": "https://api.binance.com/api/v1/ticker/24hr?symbol=REQBTC"
+	},
+	{
+		"name": "POWR",
+		"balance": "400",
+		"exchange": "bittrex",
+		"url": "https://bittrex.com/api/v1.1/public/getmarketsummary?market=BTC-POWR"
+	}
 ]
