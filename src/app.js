@@ -3,7 +3,7 @@ var express = require("express");
 const exphbs = require('express-handlebars');
 const path = require('path');
 var request = require('request');
-let altCoinPrice = require('./bittrex-price');
+let altCoinPrice = require('./get-price');
 
 var app = express();
 var coindeskResponse;
@@ -61,17 +61,6 @@ function calculateValue(portfolio, btcPrice) {
     }
     totalValueUSD = round(totalValueUSD, 100);
     totalValueBTC = round(totalValueBTC, 100);
-
-    /*
-    var totalEntry = {
-        name: "Total",
-        balance: " ",
-        accBTCValue: totalValueBTC,
-        worthInUSD: totalValueUSD,
-        lastPrice: " "
-    }
-    portfolio.push(totalEntry);
-    */
     console.log(totalValueBTC + ' BTC ' + '$' + totalValueUSD);
 }
 
