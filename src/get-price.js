@@ -64,7 +64,6 @@ function getPrice(portfolio) {
       obj.lastPrice = balance[idx].lastPrice;
       obj.previousDay = balance[idx].previousDay;
     });
-    console.log(portfolio);
   })
 
 }

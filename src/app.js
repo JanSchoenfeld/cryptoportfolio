@@ -117,7 +117,7 @@ app.listen(3000, function () {
         console.log('Getting da coins');
         console.log('patte fliesst');
         altCoinPrice(portfolio);
-    }, 3000)
+    }, 30000)
 
 
 });
