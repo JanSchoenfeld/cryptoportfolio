@@ -1,8 +1,6 @@
 var request = require("request");
 var fs = require('fs');
 
-var portfolio = JSON.parse(fs.readFileSync("../portfolio.json"));
-
 
 function round(number, decimal) {
   var roundedNumber = Math.round(number * decimal) / decimal;
@@ -10,54 +8,66 @@ function round(number, decimal) {
 }
 
 //Call Bittrex public API for each currency and get the market summary, then add into portfolio.
-//#TODO: Implement with promise
 function getPrice(portfolio) {
 
+  var jobs = [];
+  var values = [];
+
   for (let balance of portfolio) {
-    var options = {
-      method: 'GET',
-      url: balance.url
-    }
-    if(balance.exchange == "bittrex"){
-      getBittrexPrice(options, balance);
-    }
-    if(balance.exchange == "binance"){
-      getBinancePrice(options, balance);
-    }
 
-  }
-
-  function getBittrexPrice(options, balance) {
-    request(options, function (error, response, body) {
-      if (error) throw new Error(error);
-
-      var ticker = JSON.parse(body);
-      balance.lastPrice = ticker.result[0].Last;
-      if (balance.name == 'BTC') {
-        balance.previousDay = round(ticker.result[0].PrevDay, 100);
-      } else {
-        balance.previousDay = ticker.result[0].PrevDay;
+    var promise = new Promise(function (resolve, reject) {
+      var options = {
+        method: 'GET',
+        url: balance.url
       }
-    });
+
+      switch (balance.exchange) {
+        case 'bittrex':
+          var result = {};
+          request(options, function (error, response, body) {
+            if (error) throw new Error(error);
+
+            var ticker = JSON.parse(body);
+            result.lastPrice = ticker.result[0].Last;
+            if (balance.name == 'BTC') {
+              result.previousDay = round(ticker.result[0].PrevDay, 100);
+            } else {
+              result.previousDay = ticker.result[0].PrevDay;
+            }
+            resolve(result);
+          });
+          break;
+        case 'binance':
+          var result = {};
+          request(options, function (error, response, body) {
+            if (error) throw new Error(error);
+
+            var ticker = JSON.parse(body);
+            result.lastPrice = ticker.lastPrice;
+            result.previousDay = ticker.openPrice;
+            resolve(result);
+          });
+          break;
+        default:
+          console.log('Unrecognized Exchange');
+          break;
+      }
+
+    })
+    jobs.push(promise) // Push jobs down the stairs
+
   }
 
-  function getBinancePrice(options, balance) {
-    request(options, function (error, response, body) {
-      if (error) throw new Error(error);
+  Promise.all(jobs).then(balance => {
 
-      var ticker = JSON.parse(body);
-      balance.lastPrice = ticker.lastPrice;
-      balance.previousDay = ticker.openPrice;
+    portfolio.forEach(function (obj, idx) {
+      obj.lastPrice = balance[idx].lastPrice;
+      obj.previousDay = balance[idx].previousDay;
     });
-  }
+    console.log(portfolio);
+  })
 
-
-  //pseudo-async
-  var millisecondsToWait = 700;
-  setTimeout(function () {}, millisecondsToWait);
-  
 }
 
-//warum funktioniert das ohne den aufruf nicht????
-getPrice(portfolio);
+
 module.exports = getPrice;

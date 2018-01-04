@@ -109,4 +109,15 @@ app.listen(3000, function () {
 
     console.log('Server running!');
 
+
+    // Get values for coins
+
+
+    var coinLoop = setInterval(() => {
+        console.log('Getting da coins');
+        console.log('patte fliesst');
+        altCoinPrice(portfolio);
+    }, 3000)
+
+
 });
