@@ -43,25 +43,30 @@ function round(number, decimal) {
 
 
 //Function to calculate the current dollar price based on satoshi price, balance and BTC-USD price
-function calculateValue(portfolio, btcPrice) {
+function calculateValue(portfolio, btcPriceUSD, btcPriceEUR) {
     for (let entry of portfolio) {
         if (entry.name == 'BTC') {
-            entry.worthInUSD = round(entry.balance * btcPrice, 100);
+            entry.worthInUSD = round(entry.balance * btcPriceUSD, 100);
+            entry.worthInEUR = round(entry.balance * btcPriceEUR, 100);
             entry.accBTCValue = entry.balance;
         } else {
             entry.accBTCValue = round(entry.balance * entry.lastPrice, 100000000);
-            entry.worthInUSD = round(entry.accBTCValue * btcPrice, 100);
+            entry.worthInUSD = round(entry.accBTCValue * btcPriceUSD, 100);
+            entry.worthInEUR = round(entry.accBTCValue * btcPriceEUR, 100);
         }
     }
     var totalValueUSD = 0;
     var totalValueBTC = 0;
+    var totalValueEUR = 0;
     for (let entry of portfolio) {
         totalValueUSD = totalValueUSD + parseFloat(entry.worthInUSD);
+        totalValueEUR = totalValueEUR + parseFloat(entry.worthInEUR);
         totalValueBTC = totalValueBTC + parseFloat(entry.accBTCValue);
     }
     totalValueUSD = round(totalValueUSD, 100);
+    totalValueEUR = round(totalValueEUR, 100);
     totalValueBTC = round(totalValueBTC, 100);
-    console.log(totalValueBTC + ' BTC ' + '$' + totalValueUSD);
+    console.log(totalValueBTC + ' BTC ' + '$' + totalValueUSD + ' €' + totalValueEUR);
 }
 
 
@@ -91,7 +96,7 @@ app.get("/", function (req, res) {
                 break;
             }
         }
-        calculateValue(portfolio, coindeskResponse.bpi.USD.rate_float);
+        calculateValue(portfolio, coindeskResponse.bpi.USD.rate_float, coindeskResponse.bpi.EUR.rate_float);
         calculatePercentChange(portfolio);
         //hier die views datei + variablen einfügen die in main.hsb gerendert werden soll
         res.render('portfolio', {
