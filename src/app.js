@@ -85,7 +85,6 @@ app.get("/", function (req, res) {
         var btcPriceRoundedEUR = round(coindeskResponse.bpi.EUR.rate_float, 100);
 
         //call bittrex api for altcoin price
-        altCoinPrice(portfolio);
         for (let entry of portfolio) {
             if (entry.name == 'BTC') {
                 entry.lastPrice = btcPriceRoundedUSD;
@@ -108,15 +107,10 @@ app.get("/", function (req, res) {
 app.listen(3000, function () {
 
     console.log('Server running!');
-
-
-    // Get values for coins
-
-
+    altCoinPrice(portfolio);
     var coinLoop = setInterval(() => {
-        console.log('Getting da coins');
         console.log('patte fliesst');
-        altCoinPrice(portfolio);
+        
     }, 30000)
 
 

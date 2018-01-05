@@ -1,6 +1,6 @@
 [{
 		"name": "BTC",
-		"balance": "1.47510767",
+		"balance": "1.44895223",
 		"exchange": "bittrex",
 		"url": "https://bittrex.com/api/v1.1/public/getmarketsummary?market=USDT-BTC"
 	},
