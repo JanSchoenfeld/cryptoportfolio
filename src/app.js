@@ -114,6 +114,7 @@ app.listen(3000, function () {
     console.log('Server running!');
     altCoinPrice(portfolio);
     var coinLoop = setInterval(() => {
+        altCoinPrice(portfolio);
         console.log('patte fliesst');
         
     }, 30000)

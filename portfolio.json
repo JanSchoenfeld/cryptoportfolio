@@ -1,6 +1,6 @@
 [{
 		"name": "BTC",
-		"balance": "1.44895223",
+		"balance": "1.24895223",
 		"exchange": "bittrex",
 		"url": "https://bittrex.com/api/v1.1/public/getmarketsummary?market=USDT-BTC"
 	},
@@ -9,6 +9,12 @@
 		"balance": "32",
 		"exchange": "bittrex",
 		"url": "https://bittrex.com/api/v1.1/public/getmarketsummary?market=BTC-NEO"
+	},
+	{
+		"name": "NANO",
+		"balance": "188",
+		"exchange": "binance",
+		"url": "https://api.binance.com/api/v1/ticker/24hr?symbol=NANOBTC"
 	},
 	{
 		"name": "XLM",
