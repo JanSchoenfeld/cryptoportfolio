@@ -13,6 +13,10 @@ var options = {
     url: 'https://api.coindesk.com/v1/bpi/currentprice/EUR.json'
 };
 
+var totalValueUSD = 0;
+var totalValueBTC = 0;
+var totalValueEUR = 0;
+
 const engineConfig = {
     extname: '.hbs',
     defaultLayout: 'main',
@@ -55,9 +59,9 @@ function calculateValue(portfolio, btcPriceUSD, btcPriceEUR) {
             entry.worthInEUR = round(entry.accBTCValue * btcPriceEUR, 100);
         }
     }
-    var totalValueUSD = 0;
-    var totalValueBTC = 0;
-    var totalValueEUR = 0;
+    totalValueUSD = 0;
+    totalValueBTC = 0;
+    totalValueEUR = 0;
     for (let entry of portfolio) {
         totalValueUSD = totalValueUSD + parseFloat(entry.worthInUSD);
         totalValueEUR = totalValueEUR + parseFloat(entry.worthInEUR);
@@ -100,8 +104,12 @@ app.get("/eur", function (req, res) {
         //hier die views datei + variablen einfügen die in main.hsb gerendert werden soll
         res.render('portfolio_eur', {
             portfolio: portfolio,
-            btcPrice: coindeskResponse.bpi.USD.rate_float,
-            btcPriceRounded: btcPriceRoundedUSD
+            btcPrice: coindeskResponse.bpi.EUR.rate_float,
+            btcPriceRounded: btcPriceRoundedUSD,
+            btcPriceRoundedEUR: btcPriceRoundedEUR,
+            totalValueUSD: totalValueUSD,
+            totalValueBTC: totalValueBTC,
+            totalValueEUR: totalValueEUR
         });
     });
 });
@@ -130,7 +138,11 @@ app.get("/", function (req, res) {
         res.render('portfolio', {
             portfolio: portfolio,
             btcPrice: coindeskResponse.bpi.USD.rate_float,
-            btcPriceRounded: btcPriceRoundedUSD
+            btcPriceRounded: btcPriceRoundedUSD,
+            btcPriceRoundedEUR: btcPriceRoundedEUR,
+            totalValueUSD: totalValueUSD,
+            totalValueBTC: totalValueBTC,
+            totalValueEUR: totalValueEUR
         });
     });
 });

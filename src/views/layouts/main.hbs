@@ -36,10 +36,27 @@
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="#">Something else here</a>
         </div>
+        <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+          aria-expanded="false">
+          Porfolio Value
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" target="_blank" href="https://i.imgur.com/MiC6C6l.gif">${{totalValueUSD}}</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" target="_blank" href="http://i.imgur.com/GgyLPQs.gif">{{totalValueEUR}}€</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" target="_blank" href="https://i.redd.it/f2p8tajk9irz.gif">{{totalValueBTC}} BTC</a>
+        </div>
       </li>
       <li class="nav-item">
-        <a class="nav-link" target="_blank" href="https://www.coindesk.com/price/">1 BTC = ${{btcPriceRounded}}</a>
+        <a class="nav-link" target="_blank" href="https://www.coindesk.com/price/">1 BTC = ${{btcPriceRounded}} / {{btcPriceRoundedEUR}}€</a>
       </li>
+      <!--
+      <li class="nav-item">
+        <a class="nav-link" target="_blank" href="https://i.imgur.com/MiC6C6l.gif">Portfolio value: ${{totalValueUSD}} / {{totalValueEUR}}€ / {{totalValueBTC}} BTC</a>
+      </li>
+      -->
     </ul>
   </div>
 </nav>
