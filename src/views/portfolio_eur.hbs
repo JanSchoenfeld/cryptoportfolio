@@ -1,0 +1,38 @@
+<body>
+    <div class="container" style="padding-top: 30px;
+    padding-bottom: 15px;">
+        <table class="table table-dark table-hover text-center border border-dark">
+            <thead>
+                <tr>
+                    <th>Currency</th>
+                    <th>Balance</th>
+                    <th>Value in EUR</th>
+                    <th>Value in BTC</th>
+                    <th>Value per unit</th>
+                    <th>Previous day</th>
+                    <th>% Change</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each portfolio}}
+                <tr>
+                    <td>
+                        {{#if_equal name 'BTC'}}
+                        <a target="_blank" href="https://bittrex.com/Market/Index?MarketName=USDT-BTC" style="color: #ffffff">{{> name this}}</a>
+                        {{else}}
+                        <a target="_blank" href="https://bittrex.com/Market/Index?MarketName=BTC-{{> name this}}" style="color: #ffffff">{{> name this}}</a>
+                        <!-- if market = btc link to other usdt-btc or coindesk -->
+                        {{/if_equal}}
+                    </td>
+                    <td>{{> balance this}}</td>
+                    <td>{{> worthInEUR this}}€</td>
+                    <td>{{> accBTCValue this}}</td>
+                    <td>{{> lastPrice this}}</td>
+                    <td>{{> previousDay this}}</td>
+                    <td>{{> percentChange this}}%</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</body>

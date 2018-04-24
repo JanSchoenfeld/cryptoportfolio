@@ -77,6 +77,34 @@ function calculatePercentChange(portfolio) {
     }
 }
 
+app.get("/eur", function (req, res) {
+
+    //request to coinbase to get current btc price
+    request(options, function (error, response, body) {
+        if (error) throw new Error(error);
+
+        coindeskResponse = JSON.parse(body);
+        var btcPriceRoundedUSD = round(coindeskResponse.bpi.USD.rate_float, 100);
+        var btcPriceRoundedEUR = round(coindeskResponse.bpi.EUR.rate_float, 100);
+
+        //call bittrex api for altcoin price
+        for (let entry of portfolio) {
+            if (entry.name == 'BTC') {
+                entry.lastPrice = btcPriceRoundedUSD;
+                entry.lastPriceEUR = btcPriceRoundedEUR;
+                break;
+            }
+        }
+        calculateValue(portfolio, coindeskResponse.bpi.USD.rate_float, coindeskResponse.bpi.EUR.rate_float);
+        calculatePercentChange(portfolio);
+        //hier die views datei + variablen einfügen die in main.hsb gerendert werden soll
+        res.render('portfolio_eur', {
+            portfolio: portfolio,
+            btcPrice: coindeskResponse.bpi.USD.rate_float,
+            btcPriceRounded: btcPriceRoundedUSD
+        });
+    });
+});
 
 
 app.get("/", function (req, res) {
