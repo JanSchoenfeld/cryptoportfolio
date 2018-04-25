@@ -13,5 +13,8 @@
     "handlebars": "^4.0.11",
     "express-handlebars": "^3.0.0",
     "node-bittrex-api": "^0.8.1"
+  },
+  "devDependencies": {
+    "@types/node": "^9.4.0"
   }
 }
