@@ -1,4 +1,4 @@
-const request = require("request");
+let request = require("request");
 
 
 function round(number, decimal) {
@@ -11,11 +11,11 @@ function getPrice(portfolio) {
 
   let jobs = [];
   let values = [];
-  let result = {};
 
   for (let balance of portfolio) {
 
-    let promise = new Promise(function (resolve, reject) {
+    let result = {};
+    let promise = new Promise((resolve, reject) => {
       let options = {
         method: 'GET',
         url: balance.url
@@ -62,7 +62,7 @@ function getPrice(portfolio) {
       obj.lastPrice = balance[idx].lastPrice;
       obj.previousDay = balance[idx].previousDay;
     });
-  })
+  });
 
 }
 
