@@ -1,36 +1,36 @@
 [{
 		"name": "BTC",
-		"balance": "1.24895223",
+		"balance": "1",
 		"exchange": "bittrex",
 		"url": "https://bittrex.com/api/v1.1/public/getmarketsummary?market=USDT-BTC"
 	},
 	{
 		"name": "NEO",
-		"balance": "32",
+		"balance": "1",
 		"exchange": "bittrex",
 		"url": "https://bittrex.com/api/v1.1/public/getmarketsummary?market=BTC-NEO"
 	},
 	{
 		"name": "NANO",
-		"balance": "188",
+		"balance": "1",
 		"exchange": "binance",
 		"url": "https://api.binance.com/api/v1/ticker/24hr?symbol=NANOBTC"
 	},
 	{
 		"name": "XLM",
-		"balance": "1700",
+		"balance": "1",
 		"exchange": "bittrex",
 		"url": "https://bittrex.com/api/v1.1/public/getmarketsummary?market=BTC-XLM"
 	},
 	{
 		"name": "REQ",
-		"balance": "1110",
+		"balance": "1",
 		"exchange": "binance",
 		"url": "https://api.binance.com/api/v1/ticker/24hr?symbol=REQBTC"
 	},
 	{
 		"name": "POWR",
-		"balance": "400",
+		"balance": "1",
 		"exchange": "bittrex",
 		"url": "https://bittrex.com/api/v1.1/public/getmarketsummary?market=BTC-POWR"
 	}
