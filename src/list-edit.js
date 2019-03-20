@@ -1,9 +1,8 @@
-var fs = require("fs");
-const path = require('path');
+const fs = require("fs");
 
 
-var key = "24h_volume_change";
-var coinlist = JSON.parse(fs.readFileSync("../list.json"));
+const key = "24h_volume_change";
+const coinlist = JSON.parse(fs.readFileSync("../list.json"));
 
 for(let entry of coinlist){
     delete entry["price_usd"];
@@ -18,5 +17,6 @@ for(let entry of coinlist){
     delete entry["percent_change_7d"];
     delete entry["last_updated"];
 }
+
 fs.writeFileSync('./editedlist.json', JSON.stringify(coinlist), 'utf-8');
 console.log(coinlist.length);

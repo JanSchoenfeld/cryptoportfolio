@@ -1,21 +1,21 @@
-var fs = require("fs");
-var express = require("express");
+const fs = require("fs");
+const express = require("express");
 const exphbs = require('express-handlebars');
 const path = require('path');
-var request = require('request');
-let altCoinPrice = require('./get-price');
+const request = require('request');
+const altCoinPrice = require('./get-price');
 
-var app = express();
-var coindeskResponse;
-var portfolio = JSON.parse(fs.readFileSync("../portfolio.json"));
-var options = {
+let app = express();
+let coindeskResponse;
+let portfolio = JSON.parse(fs.readFileSync(path.join(__dirname, "../portfolio.json")));
+let options = {
     method: 'GET',
     url: 'https://api.coindesk.com/v1/bpi/currentprice/EUR.json'
 };
 
-var totalValueUSD = 0;
-var totalValueBTC = 0;
-var totalValueEUR = 0;
+let totalValueUSD = 0;
+let totalValueBTC = 0;
+let totalValueEUR = 0;
 
 const engineConfig = {
     extname: '.hbs',
@@ -31,7 +31,7 @@ const engineConfig = {
     },
     layoutsDir: path.join(__dirname, 'views', 'layouts'),
     partialsDir: path.join(__dirname, 'views', 'partials')
-}
+};
 
 app.engine('hbs', exphbs(engineConfig));
 app.set('views', path.join(__dirname, 'views'));
@@ -40,7 +40,7 @@ app.set('view engine', 'hbs');
 //Function that rounds on second decimal after 0
 //params: number to round, decimal to round to (Ex. 10 for .0, 100 for .00)
 function round(number, decimal) {
-    var roundedNumber = Math.round(number * decimal) / decimal;
+    let roundedNumber = Math.round(number * decimal) / decimal;
     return roundedNumber;
 }
 
@@ -88,8 +88,8 @@ app.get("/eur", function (req, res) {
         if (error) throw new Error(error);
 
         coindeskResponse = JSON.parse(body);
-        var btcPriceRoundedUSD = round(coindeskResponse.bpi.USD.rate_float, 100);
-        var btcPriceRoundedEUR = round(coindeskResponse.bpi.EUR.rate_float, 100);
+        let btcPriceRoundedUSD = round(coindeskResponse.bpi.USD.rate_float, 100);
+        let btcPriceRoundedEUR = round(coindeskResponse.bpi.EUR.rate_float, 100);
 
         //call bittrex api for altcoin price
         for (let entry of portfolio) {
@@ -101,7 +101,7 @@ app.get("/eur", function (req, res) {
         }
         calculateValue(portfolio, coindeskResponse.bpi.USD.rate_float, coindeskResponse.bpi.EUR.rate_float);
         calculatePercentChange(portfolio);
-        //hier die views datei + variablen einfügen die in main.hsb gerendert werden soll
+        //hier die views datei + letiablen einfügen die in main.hsb gerendert werden soll
         res.render('portfolio_eur', {
             portfolio: portfolio,
             btcPrice: coindeskResponse.bpi.EUR.rate_float,
@@ -122,8 +122,8 @@ app.get("/", function (req, res) {
         if (error) throw new Error(error);
 
         coindeskResponse = JSON.parse(body);
-        var btcPriceRoundedUSD = round(coindeskResponse.bpi.USD.rate_float, 100);
-        var btcPriceRoundedEUR = round(coindeskResponse.bpi.EUR.rate_float, 100);
+        let btcPriceRoundedUSD = round(coindeskResponse.bpi.USD.rate_float, 100);
+        let btcPriceRoundedEUR = round(coindeskResponse.bpi.EUR.rate_float, 100);
 
         //call bittrex api for altcoin price
         for (let entry of portfolio) {
@@ -134,7 +134,7 @@ app.get("/", function (req, res) {
         }
         calculateValue(portfolio, coindeskResponse.bpi.USD.rate_float, coindeskResponse.bpi.EUR.rate_float);
         calculatePercentChange(portfolio);
-        //hier die views datei + variablen einfügen die in main.hsb gerendert werden soll
+        //hier die views datei + letiablen einfügen die in main.hsb gerendert werden soll
         res.render('portfolio', {
             portfolio: portfolio,
             btcPrice: coindeskResponse.bpi.USD.rate_float,
@@ -153,11 +153,10 @@ app.listen(3000, function () {
 
     console.log('Server running!');
     altCoinPrice(portfolio);
-    var coinLoop = setInterval(() => {
+    setInterval(() => {
         altCoinPrice(portfolio);
         console.log('patte fliesst');
-        
-    }, 30000)
+    }, 30000);
 
 
 });

@@ -1,33 +1,32 @@
-var request = require("request");
-var fs = require('fs');
+const request = require("request");
 
 
 function round(number, decimal) {
-  var roundedNumber = Math.round(number * decimal) / decimal;
+  let roundedNumber = Math.round(number * decimal) / decimal;
   return roundedNumber;
 }
 
 //Call Bittrex public API for each currency and get the market summary, then add into portfolio.
 function getPrice(portfolio) {
 
-  var jobs = [];
-  var values = [];
+  let jobs = [];
+  let values = [];
+  let result = {};
 
   for (let balance of portfolio) {
 
-    var promise = new Promise(function (resolve, reject) {
-      var options = {
+    let promise = new Promise(function (resolve, reject) {
+      let options = {
         method: 'GET',
         url: balance.url
-      }
+      };
 
       switch (balance.exchange) {
         case 'bittrex':
-          var result = {};
           request(options, function (error, response, body) {
             if (error) throw new Error(error);
 
-            var ticker = JSON.parse(body);
+            let ticker = JSON.parse(body);
             result.lastPrice = ticker.result[0].Last;
             if (balance.name == 'BTC') {
               result.previousDay = round(ticker.result[0].PrevDay, 100);
@@ -38,11 +37,10 @@ function getPrice(portfolio) {
           });
           break;
         case 'binance':
-          var result = {};
           request(options, function (error, response, body) {
             if (error) throw new Error(error);
 
-            var ticker = JSON.parse(body);
+            let ticker = JSON.parse(body);
             result.lastPrice = ticker.lastPrice;
             result.previousDay = ticker.openPrice;
             resolve(result);
@@ -53,8 +51,8 @@ function getPrice(portfolio) {
           break;
       }
 
-    })
-    jobs.push(promise) // Push jobs down the stairs
+    });
+    jobs.push(promise); // Push jobs down the stairs
 
   }
 
